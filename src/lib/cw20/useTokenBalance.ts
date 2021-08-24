@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Dictionary } from 'ramda'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
-import { TokenBalance, Tokens } from '../types'
+import { TokenBalance, Tokens, Whitelist } from '../types'
 import { useConfig } from '../contexts/ConfigContext'
-import useWhitelist from './useWhitelist'
 import mantleURL from './mantle.json'
 import alias from './alias'
 
@@ -19,7 +18,7 @@ export default (address: string): TokenBalanceQuery => {
   const [loading, setLoading] = useState(false)
   const { chain } = useConfig()
   const { name: currentChain } = chain.current
-  const { whitelist, loading: loadingWhitelist } = useWhitelist(currentChain)
+  const whitelist: Whitelist = useMemo(() => ({}), [])
   const mantle = (mantleURL as Dictionary<string | undefined>)[currentChain]
 
   const load = useCallback(async () => {
@@ -40,9 +39,15 @@ export default (address: string): TokenBalanceQuery => {
           }))
         )
 
-        const { data } = await client.query({ query: queries })
+        const { data } = await client.query({
+          query: queries,
+          errorPolicy: 'all',
+        })
+
         setResult(parseResult(data))
       } catch (error) {
+        console.log({ ...error })
+
         setResult({})
       }
 
@@ -56,7 +61,7 @@ export default (address: string): TokenBalanceQuery => {
 
   return {
     load,
-    loading: loading || loadingWhitelist,
+    loading,
     whitelist,
     list:
       result &&

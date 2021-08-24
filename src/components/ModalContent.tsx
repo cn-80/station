@@ -2,16 +2,20 @@ import React, { FC } from 'react'
 import c from 'classnames'
 import Icon from './Icon'
 import s from './ModalContent.module.scss'
+import { useApp } from '../hooks'
 
 type Props = {
-  close: () => void
+  close?: () => void
   goBack?: () => void
   disabled?: boolean
   actions?: { icon: string; onClick: () => void }[]
 }
 
 const ModalContent: FC<Props> = (props) => {
-  const { close, goBack, disabled, actions = [], children } = props
+  const { goBack, disabled, actions = [], children } = props
+  const { modal } = useApp()
+  const close = props.close ?? modal.close
+
   return (
     <article className={s.container}>
       <header className={c(s.actions, disabled && s.disabled)}>

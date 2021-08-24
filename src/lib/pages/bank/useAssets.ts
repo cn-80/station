@@ -16,7 +16,7 @@ interface Config {
 export default (user: User, config?: Config): AssetsPage => {
   const { t } = useTranslation()
   const bank = useBank(user)
-  const tokens = useTokenBalance(user.address)
+  const tokenBalances = useTokenBalance(user.address)
   const [hideSmall, setHideSmall] = useState<boolean>(
     config?.hideSmall !== undefined ? config.hideSmall : false
   )
@@ -26,7 +26,7 @@ export default (user: User, config?: Config): AssetsPage => {
 
   const load = () => {
     bank.execute()
-    tokens.load()
+    tokenBalances.load()
   }
 
   const render = (
@@ -122,11 +122,11 @@ export default (user: User, config?: Config): AssetsPage => {
   return Object.assign(
     { setHideSmall, load },
     bank,
-    { loading: bank.loading || tokens.loading },
+    { loading: bank.loading || tokenBalances.loading },
     bank.data && {
       ui: render(
         bank.data,
-        tokens.list?.filter(({ balance }) => gt(balance, 0))
+        tokenBalances.list?.filter(({ balance }) => gt(balance, 0))
       ),
     }
   )

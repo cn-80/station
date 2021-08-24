@@ -1,0 +1,10 @@
+.list {
+  max-height: 540px;
+  overflow-y: scroll;
+}
+
+.item {
+  border: 1px solid black;
+  background: silver;
+  display: flex;
+}
