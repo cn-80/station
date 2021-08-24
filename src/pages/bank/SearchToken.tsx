@@ -1,3 +1,4 @@
+import { AccAddress } from '@terra-money/terra.js'
 import { useState } from 'react'
 import { Token, Whitelist } from '../../lib'
 import styles from './SearchToken.module.scss'
@@ -17,7 +18,8 @@ const TokenItem = ({ token, symbol, decimals, icon }: Token) => (
 const SearchToken = ({ whitelist }: { whitelist: Whitelist }) => {
   const [input, setInput] = useState('')
   const filter = ([token, { symbol }]: [string, Token]) =>
-    symbol.toLowerCase().includes(input.toLowerCase()) || token.includes(input)
+    symbol.toLowerCase().includes(input.toLowerCase()) ||
+    (AccAddress.validate(input) && token.includes(input))
 
   return (
     <>
