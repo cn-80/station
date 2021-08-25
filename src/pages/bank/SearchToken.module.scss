@@ -6,6 +6,18 @@
 .item {
   border: 1px solid black;
   background: rgba(silver, 40%);
+  padding: 5px;
   margin-bottom: 5px;
+
+  button {
+    text-align: left;
+  }
+}
+
+.token {
   display: flex;
+
+  img {
+    margin-right: 5px;
+  }
 }
