@@ -20,10 +20,15 @@ const Assets = ({ user }: { user: User }) => {
 
   const render = ({ card, available, tokens, vesting }: AssetsUI) => (
     <>
-      <button onClick={() => modal.open(<AddToken />)}>Add token</button>
       {card && <Info icon="info_outline" {...card} card={!isExtension} />}
       {available && <AvailableList {...available} />}
       {tokens && <AvailableList {...tokens} />}
+      <button
+        className="btn btn-primary btn-block"
+        onClick={() => modal.open(<AddToken />)}
+      >
+        Add token
+      </button>
       {vesting && <VestingList {...vesting} />}
     </>
   )

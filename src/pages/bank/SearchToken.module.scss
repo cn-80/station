@@ -1,3 +1,10 @@
+.search {
+  background: rgba(silver, 40%);
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px 0;
+}
+
 .list {
   max-height: 540px;
   overflow-y: scroll;
@@ -8,16 +15,4 @@
   background: rgba(silver, 40%);
   padding: 5px;
   margin-bottom: 5px;
-
-  button {
-    text-align: left;
-  }
-}
-
-.token {
-  display: flex;
-
-  img {
-    margin-right: 5px;
-  }
 }

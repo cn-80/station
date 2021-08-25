@@ -17,7 +17,6 @@ export interface AssetsUI {
 export interface AvailableUI {
   title: string
   list: AvailableItem[]
-  hideSmall: { label: string; checked: boolean; toggle: () => void }
   send: string
 }
 

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import useWhitelist from '../../lib/cw20/useWhitelist'
 import ModalContent from '../../components/ModalContent'
 import SearchToken from './SearchToken'
 import AddCustomToken from './AddCustomToken'
@@ -7,9 +6,8 @@ import styles from './AddToken.module.scss'
 
 const AddToken = () => {
   const [isSearch, setIsSearch] = useState(true)
-  const { whitelist } = useWhitelist()
 
-  return !whitelist ? null : (
+  return (
     <ModalContent>
       <h1>Add token</h1>
 
@@ -23,11 +21,7 @@ const AddToken = () => {
         </button>
       </section>
 
-      {isSearch ? (
-        <SearchToken whitelist={whitelist} />
-      ) : (
-        <AddCustomToken whitelist={whitelist} />
-      )}
+      {isSearch ? <SearchToken /> : <AddCustomToken />}
 
       <button></button>
     </ModalContent>

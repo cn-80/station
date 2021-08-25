@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Dictionary } from 'ramda'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
-import { TokenBalance, Tokens, Whitelist } from '../types'
+import { TokenBalance, Tokens } from '../types'
 import { useConfig } from '../contexts/ConfigContext'
+import { useTokens } from '../../data/local'
 import mantleURL from './mantle.json'
 import alias from './alias'
 
@@ -18,7 +19,7 @@ export default (address: string): TokenBalanceQuery => {
   const [loading, setLoading] = useState(false)
   const { chain } = useConfig()
   const { name: currentChain } = chain.current
-  const whitelist: Whitelist = useMemo(() => ({}), [])
+  const whitelist = useTokens()
   const mantle = (mantleURL as Dictionary<string | undefined>)[currentChain]
 
   const load = useCallback(async () => {

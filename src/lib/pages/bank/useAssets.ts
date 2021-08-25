@@ -20,9 +20,6 @@ export default (user: User, config?: Config): AssetsPage => {
   const [hideSmall, setHideSmall] = useState<boolean>(
     config?.hideSmall !== undefined ? config.hideSmall : false
   )
-  const [hideSmallTokens, setHideSmallTokens] = useState(
-    config?.hideSmallTokens !== undefined ? config.hideSmallTokens : false
-  )
 
   const load = () => {
     bank.execute()
@@ -63,25 +60,18 @@ export default (user: User, config?: Config): AssetsPage => {
           },
           send: t('Post:Send:Send'),
         },
-    tokens: !tokenList?.filter(({ balance }) => gt(balance, 0)).length
+    tokens: !tokenList?.length
       ? undefined
       : {
           title: 'Tokens',
-          list: tokenList
-            .filter(({ balance }) => !hideSmallTokens || gt(balance, SMALL))
-            .map(({ token, symbol, icon, balance, decimals }) => ({
-              icon,
-              token,
-              display: {
-                value: format.amount(balance, decimals),
-                unit: symbol,
-              },
-            })),
-          hideSmall: {
-            label: t('Page:Bank:Hide small balances'),
-            checked: hideSmallTokens,
-            toggle: () => setHideSmallTokens((v) => !v),
-          },
+          list: tokenList.map(({ token, symbol, icon, balance, decimals }) => {
+            const display = {
+              value: format.amount(balance, decimals),
+              unit: symbol,
+            }
+
+            return { icon, token, display }
+          }),
           send: t('Post:Send:Send'),
         },
     vesting: !vesting.length
